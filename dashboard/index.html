@@ -3,35 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Medicare Cost Drivers · Peterson-Milbank service categories</title>
+<title>Medicare Cost Drivers · Why spending grew, 2016–2022</title>
 <style>
+/* Brand: Freedman HealthCare navy #06357b, teal #01a1c1, sky #50b3d0, rose #e1b5b7, ink #152337.
+   Series colors are brand-derived steps, validated for colorblind separation on each surface. */
 .viz-root {
   color-scheme: light;
-  --page: #f4f3f0; --surface-1: #fcfcfb; --border: #e4e3df; --grid: #ebeae6;
-  --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7974;
-  --accent: #2a78d6; --flag: #9a6700; --flag-bg: #fff4d6; --pass: #1a7f37; --pass-bg: #e6f4ea;
-  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300;
-  --seq: #2a78d6;
+  --page: #f3f6f9; --surface-1: #ffffff; --border: #dfe5ec; --grid: #e9eef3;
+  --text-primary: #152337; --text-secondary: #46566b; --text-muted: #6e7c8d;
+  --brand: #06357b; --brand-2: #01a1c1; --hero-bg: #06357b; --hero-text: #ffffff; --hero-sub: #cfe6f2; --tag-bg: rgba(80,179,208,.22);
+  --accent: #06357b; --total: #06357b; --neutral: #a9b4c0; --story: #c4566b; --story-soft: #e1b5b7;
+  --s1: #c4566b; --s2: #2d62b8; --s3: #0f9fb8; --s4: #e0913a; --s5: #8e79d0; --s6: #6f8f3a;
 }
 @media (prefers-color-scheme: dark) {
   .viz-root {
     color-scheme: dark;
-    --page: #111110; --surface-1: #1a1a19; --border: #2e2e2c; --grid: #282826;
-    --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
-    --accent: #3987e5; --flag: #f0b429; --flag-bg: #3a2e10; --pass: #56d364; --pass-bg: #12301b;
-    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300;
-    --seq: #3987e5;
+    --page: #0e1621; --surface-1: #162131; --border: #26344a; --grid: #1f2b3d;
+    --text-primary: #f2f5f9; --text-secondary: #b9c4d2; --text-muted: #8795a8;
+    --brand: #6d9be6; --brand-2: #2bb7d4; --hero-bg: #0a2a5e; --hero-text: #ffffff; --hero-sub: #b7d3e8; --tag-bg: rgba(80,179,208,.18);
+    --accent: #3f6fd6; --total: #6d9be6; --neutral: #4d5d73; --story: #c95f75; --story-soft: #7b4552;
+    --s1: #c95f75; --s2: #3f6fd6; --s3: #11a8a8; --s4: #c67d2c; --s5: #8f7bd1; --s6: #6c8c38;
   }
 }
 * { box-sizing: border-box; }
-body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-.viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 28px 32px 48px; }
+body { margin: 0; font: 14px/1.45 "museo-sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; }
+.hero { background: var(--hero-bg); color: var(--hero-text); padding: 30px 32px 34px; }
+.hero .wrap { position: relative; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--hero-sub); }
+.hero h1 { font-size: 30px; line-height: 1.18; margin: 8px 0 12px; font-weight: 700; letter-spacing: -0.015em; max-width: 900px; }
+.hero h1 em { font-style: normal; color: #f3c9cc; }
+.lede { font-size: 16px; line-height: 1.55; margin: 0; color: var(--hero-sub); max-width: 900px; }
+.lede b { color: var(--hero-text); font-weight: 650; font-variant-numeric: tabular-nums; }
+.tag { display: inline-block; margin-top: 14px; padding: 3px 10px; border-radius: 999px; font-size: 12px;
+  background: var(--tag-bg); color: var(--hero-text); }
+.body { padding: 0 32px 48px; }
 .wrap { max-width: 1240px; margin: 0 auto; }
-header h1 { font-size: 22px; margin: 0 0 4px; font-weight: 650; letter-spacing: -0.01em; }
-header p { margin: 0; color: var(--text-secondary); max-width: 860px; }
-.caveat { display: inline-block; margin-top: 10px; padding: 4px 10px; border-radius: 6px; font-size: 12.5px;
-  background: var(--flag-bg); color: var(--flag); }
-.filters { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin: 22px 0 18px; }
+.filters { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin: 20px 0 16px; }
 .filter { display: flex; align-items: center; gap: 8px; }
 .filter > span { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
 .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface-1); }
@@ -39,15 +47,19 @@ header p { margin: 0; color: var(--text-secondary); max-width: 860px; }
   padding: 5px 11px; cursor: pointer; }
 .seg button + button { border-left: 1px solid var(--border); }
 .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
-.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.seg button:focus-visible { outline: 2px solid var(--brand-2); outline-offset: -2px; }
 .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
 .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.kpi { border-top: 3px solid var(--brand-2); }
+.kpi.members { border-top-color: var(--brand); }
 .kpi .label { font-size: 12.5px; color: var(--text-secondary); }
-.kpi .value { font-size: 28px; font-weight: 650; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.kpi .value { font-size: 28px; font-weight: 700; margin-top: 2px; font-variant-numeric: tabular-nums; }
 .kpi .sub { font-size: 12.5px; color: var(--text-muted); }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
-.card h2 { font-size: 15px; margin: 0 0 2px; font-weight: 620; }
+.stack > .card + .card { margin-top: 14px; }
+.card h2 { font-size: 16px; margin: 0 0 2px; font-weight: 650; }
 .card .hint { font-size: 12.5px; color: var(--text-muted); margin: 0 0 8px; }
+.card.feature h2 { font-size: 18px; }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--text-secondary); margin: 4px 0 6px; }
 .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
 svg { display: block; width: 100%; height: auto; overflow: visible; }
@@ -55,24 +67,22 @@ svg text { fill: var(--text-secondary); font-size: 11.5px; }
 .axis path, .axis line { stroke: var(--border); }
 .gridline line { stroke: var(--grid); }
 .gridline path { display: none; }
+.axis-title { fill: var(--text-muted); font-size: 11.5px; }
 .total-label { fill: var(--text-primary); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.val-label { fill: var(--text-primary); font-size: 12.5px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.step-label { fill: var(--text-secondary); font-size: 12px; }
+.callout { fill: var(--text-primary); font-size: 12.5px; }
+.callout-strong { fill: var(--story); font-size: 13px; font-weight: 700; }
 .bar-hit { cursor: pointer; }
 .year-sel { fill: none; stroke: var(--text-primary); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.empty { fill: var(--text-muted); font-size: 13px; }
 #tip { position: fixed; pointer-events: none; z-index: 10; background: var(--surface-1); color: var(--text-primary);
   border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; box-shadow: 0 4px 16px rgba(0,0,0,.14);
-  opacity: 0; transition: opacity .08s; min-width: 160px; }
-#tip .t { font-weight: 620; margin-bottom: 4px; }
+  opacity: 0; transition: opacity .08s; min-width: 170px; }
+#tip .t { font-weight: 650; margin-bottom: 4px; }
 #tip .r { display: flex; justify-content: space-between; gap: 14px; font-variant-numeric: tabular-nums; }
 #tip .r span:first-child { color: var(--text-secondary); }
 #tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
-.checks { list-style: none; margin: 0; padding: 0; max-height: 300px; overflow: auto; }
-.checks li { display: grid; grid-template-columns: 56px 1fr auto; gap: 10px; padding: 7px 0; border-top: 1px solid var(--border); font-size: 12.5px; align-items: start; }
-.badge { font-size: 11px; font-weight: 650; padding: 2px 6px; border-radius: 5px; text-align: center; }
-.badge.PASS { color: var(--pass); background: var(--pass-bg); }
-.badge.FLAG { color: var(--flag); background: var(--flag-bg); }
-.badge.FAIL { color: #fff; background: #c62828; }
-.checks .note { color: var(--text-muted); display: block; }
-.checks .act { color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
 details { margin-top: 14px; }
 summary { cursor: pointer; color: var(--text-secondary); font-size: 13px; }
 table { border-collapse: collapse; width: 100%; margin-top: 10px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
@@ -80,89 +90,111 @@ th, td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: r
 th:first-child, td:first-child { text-align: left; }
 th { color: var(--text-secondary); font-weight: 600; }
 footer { margin-top: 22px; color: var(--text-muted); font-size: 12.5px; }
-footer a { color: var(--accent); }
-@media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, 1fr); } .grid2 { grid-template-columns: 1fr; } .viz-root { padding: 18px; } }
+footer a { color: var(--brand); }
+@media (max-width: 900px) {
+  .kpis { grid-template-columns: repeat(2, 1fr); } .grid2 { grid-template-columns: 1fr; }
+  .hero { padding: 22px 18px 26px; } .body { padding: 0 18px 36px; } .hero h1 { font-size: 24px; }
+}
 </style>
 </head>
 <body>
 <div class="viz-root">
-<div class="wrap">
-  <header>
-    <h1>Medicare cost drivers by Peterson-Milbank service category</h1>
-    <p>Allowed spending per member per month (PMPM) for Part A+B fee-for-service beneficiaries, 2016–2022, using the
-      June 2025 Peterson-Milbank consensus specifications for service categories and primary care.</p>
-    <span class="caveat">Built on CMS synthetic Medicare claims. No real patients or payments.</span>
-  </header>
-
-  <div class="filters" role="group" aria-label="Filters">
-    <div class="filter"><span>Medicaid</span><div class="seg" data-key="dual"></div></div>
-    <div class="filter"><span>Age</span><div class="seg" data-key="age"></div></div>
-    <div class="filter"><span>Sex</span><div class="seg" data-key="sex"></div></div>
-  </div>
-
-  <div class="kpis">
-    <div class="card kpi"><div class="label">Total allowed PMPM, 2022</div><div class="value" id="k-pmpm"></div><div class="sub" id="k-pmpm-sub"></div></div>
-    <div class="card kpi"><div class="label">Annual PMPM growth, 2016–2022</div><div class="value" id="k-cagr"></div><div class="sub" id="k-cagr-sub"></div></div>
-    <div class="card kpi"><div class="label">Primary care share of medical spend, 2022</div><div class="value" id="k-pc"></div><div class="sub" id="k-pc-sub"></div></div>
-    <div class="card kpi"><div class="label">Average members, 2022</div><div class="value" id="k-mem"></div><div class="sub" id="k-mem-sub"></div></div>
-  </div>
-
-  <div class="card">
-    <h2>Allowed PMPM by service category</h2>
-    <p class="hint">Click a year to drill into its subcategories below.</p>
-    <div class="legend" id="legend-a"></div>
-    <svg id="chart-a" viewBox="0 0 1180 330" role="img" aria-label="Stacked bar chart of PMPM by service category and year"></svg>
-    <details>
-      <summary>Show as table</summary>
-      <table id="table-a"></table>
-    </details>
-  </div>
-
-  <div class="grid2">
-    <div class="card">
-      <h2>Growth by category, indexed (2016 = 100)</h2>
-      <p class="hint">Shows which categories grew fastest, regardless of size.</p>
-      <div class="legend" id="legend-b"></div>
-      <svg id="chart-b" viewBox="0 0 570 300" role="img" aria-label="Line chart of PMPM indexed to 2016 by category"></svg>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Medicare cost drivers · Peterson-Milbank specifications · 2016–2022</div>
+      <h1>Spending grew because hospital stays got <em>more expensive</em>, not because there were more of them</h1>
+      <p class="lede" id="lede"></p>
+      <span class="tag">CMS synthetic FFS claims</span>
     </div>
-    <div class="card">
-      <h2 id="title-c">Subcategory PMPM</h2>
-      <p class="hint">Place of setting within each topline category.</p>
-      <svg id="chart-c" viewBox="0 0 570 320" role="img" aria-label="Bar chart of PMPM by subcategory"></svg>
-    </div>
-  </div>
+  </section>
 
-  <div class="grid2">
-    <div class="card">
-      <h2>Primary care share of medical spend</h2>
-      <p class="hint">Milbank primary care spec, Steps 1–6 (Appendix A codes, CMS primary care specialties, Appendix C places of service).</p>
-      <svg id="chart-d" viewBox="0 0 570 280" role="img" aria-label="Bar chart of primary care share by year"></svg>
+  <div class="body">
+  <div class="wrap">
+    <div class="filters" role="group" aria-label="Filters">
+      <div class="filter"><span>Medicaid</span><div class="seg" data-key="dual"></div></div>
+      <div class="filter"><span>Age</span><div class="seg" data-key="age"></div></div>
+      <div class="filter"><span>Sex</span><div class="seg" data-key="sex"></div></div>
     </div>
-    <div class="card">
-      <h2>Validation checks</h2>
-      <p class="hint">Run on every pipeline build. FLAG marks a known limitation of the synthetic data, not a pipeline error.</p>
-      <ul class="checks" id="checks"></ul>
-    </div>
-  </div>
 
-  <footer>
-    Source: CMS Synthetic Medicare Enrollment, FFS Claims and PDE (2023 release); Peterson-Milbank Program for Sustainable Health
-    Care Costs, <em>Consensus Administrative Specifications for Health Care Cost Driver Analyses</em> (June 2025).
-    Code and methods: <a href="https://github.com/Leonard-Rule/medicare-cost-drivers-analysis">github.com/Leonard-Rule/medicare-cost-drivers-analysis</a> · Leo Rule
-  </footer>
-</div>
+    <div class="kpis">
+      <div class="card kpi members"><div class="label" id="k-mem-label"></div><div class="value" id="k-mem"></div><div class="sub" id="k-mem-sub"></div></div>
+      <div class="card kpi"><div class="label" id="k-pmpm-label"></div><div class="value" id="k-pmpm"></div><div class="sub" id="k-pmpm-sub"></div></div>
+      <div class="card kpi"><div class="label" id="k-cagr-label"></div><div class="value" id="k-cagr"></div><div class="sub" id="k-cagr-sub"></div></div>
+      <div class="card kpi"><div class="label" id="k-pc-label"></div><div class="value" id="k-pc"></div><div class="sub" id="k-pc-sub"></div></div>
+    </div>
+
+    <div class="card feature">
+      <h2 id="title-w">What moved spending per member</h2>
+      <p class="hint">Change in allowed PMPM by service category. Inpatient is split into more stays (volume) and a higher allowed
+        cost per stay (price and intensity). The axis starts above zero so the changes are visible.</p>
+      <svg id="chart-w" viewBox="0 0 1180 380" role="img" aria-label="Waterfall chart of the change in PMPM by category"></svg>
+      <details>
+        <summary>Show as table</summary>
+        <table id="table-w"></table>
+      </details>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>Inpatient: price, not volume</h2>
+        <p class="hint">Stays per 1,000 members vs. allowed cost per stay, both indexed to 2016.</p>
+        <div class="legend" id="legend-ip"></div>
+        <svg id="chart-ip" viewBox="0 0 570 300" role="img" aria-label="Line chart of inpatient stays per 1,000 and cost per stay, indexed to 2016"></svg>
+      </div>
+      <div class="card">
+        <h2>Growth by category, indexed (2016 = 100)</h2>
+        <p class="hint">Which categories grew fastest, regardless of size.</p>
+        <div class="legend" id="legend-b"></div>
+        <svg id="chart-b" viewBox="0 0 570 300" role="img" aria-label="Line chart of PMPM indexed to 2016 by category"></svg>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h2>Allowed PMPM by service category</h2>
+      <p class="hint">Click a year to update the cards, the change chart and the subcategory view.</p>
+      <div class="legend" id="legend-a"></div>
+      <svg id="chart-a" viewBox="0 0 1180 330" role="img" aria-label="Stacked bar chart of PMPM by service category and year"></svg>
+      <details>
+        <summary>Show as table</summary>
+        <table id="table-a"></table>
+      </details>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2 id="title-c">Subcategory PMPM</h2>
+        <p class="hint">Place of setting within each topline category.</p>
+        <svg id="chart-c" viewBox="0 0 570 320" role="img" aria-label="Bar chart of PMPM by subcategory"></svg>
+      </div>
+      <div class="card">
+        <h2>Primary care share of medical spend</h2>
+        <p class="hint">Milbank primary care spec, Steps 1–6 (Appendix A codes, CMS primary care specialties, Appendix C places of service).</p>
+        <svg id="chart-d" viewBox="0 0 570 280" role="img" aria-label="Bar chart of primary care share by year"></svg>
+      </div>
+    </div>
+
+    <footer>
+      Source: CMS Synthetic Medicare Enrollment, FFS Claims and PDE (2023 release); Peterson-Milbank Program for Sustainable Health
+      Care Costs, <em>Consensus Administrative Specifications for Health Care Cost Driver Analyses</em> (June 2025).
+      Code and methods: <a href="https://github.com/Leonard-Rule/medicare-cost-drivers-analysis">github.com/Leonard-Rule/medicare-cost-drivers-analysis</a> · Leo Rule
+    </footer>
+  </div>
+  </div>
 </div>
 <div id="tip" role="tooltip"></div>
-
 <script src="d3.v7.min.js"></script>
 <script src="data.js"></script>
 <script>
 const D = window.DATA;
 const CATS = ["Inpatient Hospital", "Outpatient Hospital", "Professional", "Long-Term Care", "Retail Pharmacy", "Other"];
+const SHORT = { "Inpatient Hospital": "Inpatient", "Outpatient Hospital": "Outpatient", "Professional": "Professional",
+  "Long-Term Care": "Long-term care", "Retail Pharmacy": "Retail pharmacy", "Other": "Other" };
 const css = v => getComputedStyle(document.querySelector(".viz-root")).getPropertyValue(v).trim();
 const color = c => css("--s" + (CATS.indexOf(c) + 1));
 const YEARS = d3.range(2016, 2023);
-const fmt$ = d3.format("$,.0f"), fmt$2 = d3.format("$,.2f"), fmtPct = d3.format(".1%"), fmtPct2 = d3.format(".2%");
+const fmt$ = d3.format("$,.0f"), fmt$2 = d3.format("$,.2f"), fmtPct2 = d3.format(".2%"), fmtInt = d3.format(",.0f");
+const fmtSigned$ = v => (v < 0 ? "−" : "+") + fmt$(Math.abs(v));
+const fmtSignedPct = v => (v < 0 ? "−" : "+") + d3.format(".0%")(Math.abs(v));
 const FILTERS = {
   dual: [["all", "All"], [false, "Non-dual"], [true, "Dual"]],
   age:  [["all", "All"], ["<65", "<65"], ["65-74", "65–74"], ["75-84", "75–84"], ["85+", "85+"]],
@@ -190,19 +222,23 @@ function compute() {
   const spend = D.spend.filter(keep);
   const byCat = d3.rollup(spend, v => d3.sum(v, d => d.allowed), d => d.yr, d => d.cat);
   const bySub = d3.rollup(spend, v => d3.sum(v, d => d.allowed), d => d.yr, d => d.cat, d => d.sub);
+  const ip = d3.rollup(D.ip.filter(keep), v => ({ stays: d3.sum(v, d => d.stays), allowed: d3.sum(v, d => d.allowed) }), d => d.yr);
   const years = YEARS.map(yr => {
-    const row = { yr, total: 0, medicalAllowed: 0 };
+    const row = { yr, total: 0, medicalAllowed: 0, mm: mm.get(yr)?.ab || 0 };
     CATS.forEach(c => {
       const a = byCat.get(yr)?.get(c) || 0, dn = denom(yr, c);
       row[c] = dn ? a / dn : 0; row.total += row[c];
       if (c !== "Retail Pharmacy") row.medicalAllowed += a;
     });
-    row.members = (mm.get(yr)?.ab || 0) / 12;
+    const s = ip.get(yr) || { stays: 0, allowed: 0 };
+    row.stays = s.stays;
+    row.staysPerMm = row.mm ? s.stays / row.mm : 0;          // stays per member month
+    row.costPerStay = s.stays ? s.allowed / s.stays : 0;
     return row;
   });
   const pcBy = d3.rollup(D.pc.filter(keep), v => d3.sum(v, d => d.allowed), d => d.yr);
   years.forEach(r => { const pc = pcBy.get(r.yr) || 0; r.pcShare = r.medicalAllowed ? pc / r.medicalAllowed : 0;
-    r.pcPmpm = mm.get(r.yr)?.ab ? pc / mm.get(r.yr).ab : 0; });
+    r.pcPmpm = r.mm ? pc / r.mm : 0; });
   const subs = yr => {
     const out = [];
     CATS.forEach(c => (bySub.get(yr)?.get(c) || new Map()).forEach((a, s) => {
@@ -211,6 +247,28 @@ function compute() {
     return out.sort((a, b) => CATS.indexOf(a.cat) - CATS.indexOf(b.cat) || b.pmpm - a.pmpm);
   };
   return { years, subs };
+}
+
+// Distinct people with any A+B FFS month in the year, for the current filters (precomputed for every combination)
+function members(yr) {
+  const k = v => String(v);
+  const r = D.members.find(m => m.yr === yr && m.dual === k(state.dual) && m.age === state.age && m.sex === state.sex);
+  return r ? r.members : 0;
+}
+
+// Split the change in PMPM (2016 -> yr) by category; inpatient splits into volume and price.
+// Inpatient PMPM = u x p (u = stays per member month, p = allowed per stay). Midpoint split, exact:
+//   volume = (u1 - u0) * (p0 + p1) / 2,  price = (p1 - p0) * (u0 + u1) / 2
+function bridge(years, yr) {
+  const a = years[0], b = years.find(d => d.yr === yr);
+  const vol = (b.staysPerMm - a.staysPerMm) * (a.costPerStay + b.costPerStay) / 2;
+  const price = (b.costPerStay - a.costPerStay) * (a.staysPerMm + b.staysPerMm) / 2;
+  const steps = [
+    { key: "Inpatient: more stays", v: vol, story: "soft", cat: "Inpatient Hospital" },
+    { key: "Inpatient: cost per stay", v: price, story: "strong", cat: "Inpatient Hospital" },
+    ...CATS.slice(1).map(c => ({ key: SHORT[c], v: b[c] - a[c], cat: c })),
+  ].filter(s => Math.abs(s.v) >= 0.5);
+  return { a, b, vol, price, steps, change: b.total - a.total, ipChange: b["Inpatient Hospital"] - a["Inpatient Hospital"] };
 }
 
 // ---------- tooltip ----------
@@ -225,19 +283,168 @@ function showTip(ev, html) {
 }
 const hideTip = () => tip.style("opacity", 0);
 const row = (label, val, c) => `<div class="r"><span>${c ? `<i style="background:${c}"></i>` : ""}${label}</span><span>${val}</span></div>`;
+function legend(sel, items) {
+  d3.select(sel).html(items.map(([label, c]) => `<span><i style="background:${c}"></i>${label}</span>`).join(""));
+}
+const catLegend = sel => legend(sel, CATS.map(c => [c, color(c)]));
+function yTitle(svg, text, m, H) {
+  svg.append("text").attr("class", "axis-title").attr("transform", `translate(12,${(m.t + H - m.b) / 2}) rotate(-90)`)
+    .attr("text-anchor", "middle").text(text);
+}
 
-function legend(sel) {
-  d3.select(sel).html(CATS.map(c => `<span><i style="background:${color(c)}"></i>${c}</span>`).join(""));
+// ---------- hero lede ----------
+function lede(years) {
+  const { a, b, change, ipChange } = bridge(years, 2022);
+  const up = change >= 0;
+  let s = `From 2016 to 2022, allowed spending per member per month ${up ? "rose" : "fell"} <b>${fmt$(Math.abs(change))}</b>
+    (${fmtSignedPct(a.total ? change / a.total : 0)}), to <b>${fmt$(b.total)}</b>. `;
+  const ipShare0 = a.total ? a["Inpatient Hospital"] / a.total : 0;
+  if (up && ipChange > 0) {
+    s += `Inpatient care was <b>${d3.format(".0%")(ipShare0)}</b> of 2016 spending but <b>${d3.format(".0%")(ipChange / change)}</b> of the increase. `;
+  }
+  if (a.staysPerMm && a.costPerStay) {
+    s += `Stays per member ${b.staysPerMm >= a.staysPerMm ? "rose" : "fell"} <b>${d3.format(".0%")(Math.abs(b.staysPerMm / a.staysPerMm - 1))}</b>, while
+      the allowed cost of each stay ${b.costPerStay >= a.costPerStay ? "rose" : "fell"} <b>${d3.format(".0%")(Math.abs(b.costPerStay / a.costPerStay - 1))}</b>.`;
+  }
+  d3.select("#lede").html(s);
+}
+
+// ---------- chart W: waterfall of the change in PMPM ----------
+function chartW(years) {
+  const svg = d3.select("#chart-w"), W = 1180, H = 380, m = { t: 30, r: 16, b: 50, l: 64 };
+  svg.selectAll("*").remove();
+  const t = d3.select("#table-w").html("");
+  d3.select("#title-w").text(`What moved spending per member, 2016 to ${state.year}`);
+  if (state.year === 2016) {
+    svg.append("text").attr("class", "empty").attr("x", W / 2).attr("y", H / 2).attr("text-anchor", "middle")
+      .text("Pick a year after 2016 in the PMPM chart below to see what changed.");
+    return;
+  }
+  const br = bridge(years, state.year);
+  let run = br.a.total;
+  const bars = [{ key: "2016", type: "total", y0: 0, y1: br.a.total, v: br.a.total }];
+  br.steps.forEach(s => { bars.push({ ...s, type: "step", y0: run, y1: run + s.v }); run += s.v; });
+  bars.push({ key: String(state.year), type: "total", y0: 0, y1: br.b.total, v: br.b.total });
+  const tops = bars.flatMap(d => d.type === "total" ? [d.y1] : [d.y0, d.y1]);
+  const lo = Math.max(0, Math.floor((d3.min(tops) - 0.35 * (d3.max(tops) - d3.min(tops) || 100)) / 100) * 100);
+  const y = d3.scaleLinear([lo, d3.max(tops) * 1.02], [H - m.b, m.t]).nice();
+  const x = d3.scaleBand(bars.map(d => d.key), [m.l, W - m.r]).padding(0.3);
+  svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
+    .call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r)).tickFormat(fmt$)).call(g => g.selectAll("text").attr("x", -8));
+  yTitle(svg, "Allowed PMPM", m, H);
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`)
+    .call(d3.axisBottom(x).tickSize(0).tickPadding(10)).call(g => g.selectAll("text").attr("class", "step-label")
+      .each(function (k) {   // "Inpatient: cost per stay" -> two lines
+        const [a, b] = String(k).split(": ");
+        if (!b) return;
+        const t = d3.select(this).text(null);
+        t.append("tspan").attr("x", 0).text(a + ":");
+        t.append("tspan").attr("x", 0).attr("dy", "1.2em").text(b);
+      }));
+  const fill = d => d.type === "total" ? css("--total") : d.story === "strong" ? css("--story")
+    : d.story === "soft" ? css("--story-soft") : css("--neutral");
+  const top = d => y(Math.max(d.type === "total" ? lo : d.y0, d.y1, d.y0));
+  const bot = d => y(Math.max(lo, Math.min(d.type === "total" ? lo : d.y0, d.y1)));
+  svg.append("g").selectAll("rect").data(bars).join("rect")
+    .attr("x", d => x(d.key)).attr("width", x.bandwidth()).attr("rx", 3)
+    .attr("y", d => top(d)).attr("height", d => Math.max(2, bot(d) - top(d))).attr("fill", fill);
+  // Axis break marks on the total bars (their bases are cut off)
+  svg.append("g").selectAll("path").data(bars.filter(d => d.type === "total")).join("path")
+    .attr("d", d => { const x0 = x(d.key) - 3, x1 = x(d.key) + x.bandwidth() + 3, yb = H - m.b - 10;
+      return `M${x0},${yb + 4} L${x1},${yb - 4} M${x0},${yb + 10} L${x1},${yb + 2}`; })
+    .attr("stroke", css("--surface-1")).attr("stroke-width", 4).attr("fill", "none");
+  // Connectors between steps
+  svg.append("g").selectAll("line").data(bars.slice(0, -1)).join("line")
+    .attr("x1", d => x(d.key) + x.bandwidth()).attr("x2", (d, i) => x(bars[i + 1].key))
+    .attr("y1", d => y(d.y1)).attr("y2", d => y(d.y1)).attr("stroke", css("--text-muted")).attr("stroke-dasharray", "2 3");
+  svg.append("g").selectAll("text").data(bars).join("text").attr("class", "val-label").attr("text-anchor", "middle")
+    .attr("x", d => x(d.key) + x.bandwidth() / 2)
+    .attr("y", d => (d.type === "total" || d.v >= 0 ? top(d) - 7 : bot(d) + 16))
+    .text(d => d.type === "total" ? fmt$(d.v) : fmtSigned$(d.v));
+  // Callout on the story bar: text in the open space above the 2016 bar, with a leader line
+  const s = bars.find(d => d.story === "strong");
+  if (s && br.change > 0 && s.v > 0) {
+    const share = s.v / br.change, cx = x(bars[0].key), cy = m.t + 8;
+    const g = svg.append("g");
+    g.append("text").attr("class", "callout-strong").attr("x", cx).attr("y", cy).text(`${d3.format(".0%")(share)} of the total increase`);
+    g.append("text").attr("class", "callout").attr("x", cx).attr("y", cy + 18)
+      .text(`came from each hospital stay costing more: ${fmt$(br.a.costPerStay)} → ${fmt$(br.b.costPerStay)}`);
+    const lx = x(s.key) + x.bandwidth() / 2;
+    g.append("path").attr("d", `M${lx},${cy + 28} L${lx},${top(s) - 22}`)
+      .attr("fill", "none").attr("stroke", css("--story")).attr("stroke-width", 1.5);
+  }
+  svg.append("g").selectAll("rect").data(bars).join("rect").attr("fill", "transparent")
+    .attr("x", d => x(d.key) - x.step() * x.paddingInner() / 2).attr("width", x.step()).attr("y", m.t).attr("height", H - m.t - m.b)
+    .on("mousemove", (ev, d) => showTip(ev, d.type === "total"
+      ? `<div class="t">${d.key} total</div>` + row("Allowed PMPM", fmt$2(d.v))
+      : `<div class="t">${d.key}</div>` + row("Change in PMPM", fmtSigned$(d.v)) +
+        (br.change ? row("Share of net change", d3.format(".0%")(d.v / br.change)) : "") +
+        (d.cat === "Inpatient Hospital"
+          ? row("Stays per 1,000", `${d3.format(".0f")(br.a.staysPerMm * 12000)} → ${d3.format(".0f")(br.b.staysPerMm * 12000)}`) +
+            row("Cost per stay", `${fmt$(br.a.costPerStay)} → ${fmt$(br.b.costPerStay)}`)
+          : row("PMPM", `${fmt$2(br.a[d.cat])} → ${fmt$2(br.b[d.cat])}`))))
+    .on("mouseleave", hideTip);
+  t.append("tr").html("<th>Step</th><th>Change in PMPM</th><th>Running total</th>");
+  bars.forEach(d => t.append("tr").html(`<td>${d.type === "total" ? d.key + " total" : d.key}</td>
+    <td>${d.type === "total" ? "" : fmtSigned$(d.v)}</td><td>${fmt$2(d.y1)}</td>`));
+}
+
+// ---------- chart IP: inpatient volume vs price, indexed ----------
+function chartIP(years) {
+  const svg = d3.select("#chart-ip"), W = 570, H = 300, m = { t: 14, r: 92, b: 26, l: 56 };
+  svg.selectAll("*").remove();
+  const base = years[0];
+  const series = [
+    { name: "Cost per stay", c: css("--story"), pts: years.map(d => ({ yr: d.yr, v: base.costPerStay ? 100 * d.costPerStay / base.costPerStay : null,
+      raw: fmt$(d.costPerStay) })) },
+    { name: "Stays per 1,000", c: css("--s2"), pts: years.map(d => ({ yr: d.yr, v: base.staysPerMm ? 100 * d.staysPerMm / base.staysPerMm : null,
+      raw: d3.format(".0f")(d.staysPerMm * 12000) })) },
+  ];
+  legend("#legend-ip", series.map(s => [s.name, s.c]));
+  const all = series.flatMap(s => s.pts.map(p => p.v)).filter(v => v != null && isFinite(v));
+  const x = d3.scalePoint(YEARS, [m.l, W - m.r]);
+  const y = d3.scaleLinear(d3.extent([...all, 100]), [H - m.b, m.t]).nice();
+  svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
+    .call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r))).call(g => g.selectAll("text").attr("x", -8));
+  yTitle(svg, "Index (2016 = 100)", m, H);
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickSize(0).tickPadding(8));
+  svg.append("line").attr("x1", m.l).attr("x2", W - m.r).attr("y1", y(100)).attr("y2", y(100))
+    .attr("stroke", css("--text-muted")).attr("stroke-dasharray", "2 3");
+  const line = d3.line().defined(p => p.v != null && isFinite(p.v)).x(p => x(p.yr)).y(p => y(p.v));
+  svg.append("g").selectAll("path").data(series).join("path").attr("d", s => line(s.pts))
+    .attr("fill", "none").attr("stroke", s => s.c).attr("stroke-width", 2.5).attr("stroke-linejoin", "round");
+  // Direct labels at the line ends
+  const ends = series.map(s => y(s.pts[s.pts.length - 1].v ?? 100));
+  if (Math.abs(ends[0] - ends[1]) < 16) {           // keep the two end labels from overlapping
+    const mid = (ends[0] + ends[1]) / 2, up = ends[0] <= ends[1] ? 0 : 1;
+    ends[up] = mid - 8; ends[1 - up] = mid + 8;
+  }
+  svg.append("g").selectAll("text").data(series).join("text").attr("class", "val-label")
+    .attr("x", W - m.r + 8).attr("y", (s, i) => ends[i]).attr("dy", "0.35em")
+    .text(s => { const v = s.pts[s.pts.length - 1].v; return v != null && isFinite(v) ? fmtSignedPct(v / 100 - 1) : ""; });
+  const rule = svg.append("line").attr("y1", m.t).attr("y2", H - m.b).attr("stroke", css("--text-muted")).style("opacity", 0);
+  const dots = svg.append("g").selectAll("circle").data(series).join("circle").attr("r", 4.5)
+    .attr("fill", s => s.c).attr("stroke", css("--surface-1")).attr("stroke-width", 2).style("opacity", 0);
+  svg.append("rect").attr("x", m.l).attr("y", m.t).attr("width", W - m.l - m.r).attr("height", H - m.t - m.b).attr("fill", "transparent")
+    .on("mousemove", ev => {
+      const [mx] = d3.pointer(ev), i = Math.max(0, Math.min(YEARS.length - 1, Math.round((mx - m.l) / x.step()))), yr = YEARS[i];
+      rule.attr("x1", x(yr)).attr("x2", x(yr)).style("opacity", 1);
+      dots.attr("cx", x(yr)).attr("cy", s => { const v = s.pts[i].v; return v != null && isFinite(v) ? y(v) : -99; }).style("opacity", 1);
+      showTip(ev, `<div class="t">${yr}</div>` + series.map(s => row(s.name, s.pts[i].raw, s.c)).join("") +
+        row("Stays", fmtInt(years[i].stays)));
+    })
+    .on("mouseleave", () => { rule.style("opacity", 0); dots.style("opacity", 0); hideTip(); });
 }
 
 // ---------- chart A: stacked bars ----------
 function chartA(years) {
-  const svg = d3.select("#chart-a"), W = 1180, H = 330, m = { t: 22, r: 10, b: 26, l: 58 };
+  const svg = d3.select("#chart-a"), W = 1180, H = 330, m = { t: 22, r: 10, b: 26, l: 64 };
   svg.selectAll("*").remove();
   const x = d3.scaleBand(YEARS, [m.l, W - m.r]).padding(0.38);
   const y = d3.scaleLinear([0, d3.max(years, d => d.total) * 1.1 || 1], [H - m.b, m.t]).nice();
   svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
     .call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r)).tickFormat(fmt$)).call(g => g.selectAll("text").attr("x", -8));
+  yTitle(svg, "Allowed PMPM", m, H);
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickSize(0).tickPadding(8));
   const stack = d3.stack().keys(CATS)(years);
   const GAP = 1;   // half of the 2px surface gap between stacked segments
@@ -250,7 +457,6 @@ function chartA(years) {
     .text(d => fmt$(d.total));
   svg.append("rect").attr("class", "year-sel")
     .attr("x", x(state.year) - 6).attr("width", x.bandwidth() + 12).attr("y", m.t - 16).attr("height", H - m.b - m.t + 16).attr("rx", 6);
-  // Hit targets: the full column, bigger than the marks
   svg.append("g").selectAll("rect").data(years).join("rect").attr("class", "bar-hit")
     .attr("x", d => x(d.yr) - x.step() * x.paddingInner() / 2).attr("width", x.step()).attr("y", m.t - 16).attr("height", H - m.b - m.t + 16)
     .attr("fill", "transparent")
@@ -258,15 +464,14 @@ function chartA(years) {
       CATS.slice().reverse().map(c => row(c, fmt$2(d[c]), color(c))).join("")))
     .on("mouseleave", hideTip)
     .on("click", (ev, d) => { state.year = d.yr; render(); });
-  // Table view
   const t = d3.select("#table-a").html("");
   t.append("tr").html(`<th>Category</th>${YEARS.map(y => `<th>${y}</th>`).join("")}`);
   [...CATS, "Total"].forEach(c => t.append("tr").html(`<td>${c}</td>${years.map(d => `<td>${fmt$2(c === "Total" ? d.total : d[c])}</td>`).join("")}`));
 }
 
-// ---------- chart B: indexed lines with crosshair ----------
+// ---------- chart B: indexed lines by category ----------
 function chartB(years) {
-  const svg = d3.select("#chart-b"), W = 570, H = 300, m = { t: 14, r: 16, b: 26, l: 44 };
+  const svg = d3.select("#chart-b"), W = 570, H = 300, m = { t: 14, r: 16, b: 26, l: 56 };
   svg.selectAll("*").remove();
   const series = CATS.map(c => {
     const base = years[0][c];
@@ -277,12 +482,14 @@ function chartB(years) {
   const y = d3.scaleLinear(d3.extent([...all, 100]), [H - m.b, m.t]).nice();
   svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
     .call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r))).call(g => g.selectAll("text").attr("x", -8));
+  yTitle(svg, "PMPM index (2016 = 100)", m, H);
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickSize(0).tickPadding(8));
   svg.append("line").attr("x1", m.l).attr("x2", W - m.r).attr("y1", y(100)).attr("y2", y(100))
     .attr("stroke", css("--text-muted")).attr("stroke-dasharray", "2 3");
   const line = d3.line().defined(p => p.v != null && isFinite(p.v)).x(p => x(p.yr)).y(p => y(p.v));
   svg.append("g").selectAll("path").data(series).join("path").attr("d", s => line(s.pts))
-    .attr("fill", "none").attr("stroke", s => color(s.c)).attr("stroke-width", 2).attr("stroke-linejoin", "round");
+    .attr("fill", "none").attr("stroke", s => color(s.c)).attr("stroke-width", s => s.c === "Inpatient Hospital" ? 3 : 2)
+    .attr("stroke-linejoin", "round");
   const rule = svg.append("line").attr("y1", m.t).attr("y2", H - m.b).attr("stroke", css("--text-muted")).style("opacity", 0);
   const dots = svg.append("g").selectAll("circle").data(series).join("circle").attr("r", 4.5)
     .attr("fill", s => color(s.c)).attr("stroke", css("--surface-1")).attr("stroke-width", 2).style("opacity", 0);
@@ -321,15 +528,17 @@ function chartC(subs) {
 
 // ---------- chart D: primary care share ----------
 function chartD(years) {
-  const svg = d3.select("#chart-d"), W = 570, H = 280, m = { t: 22, r: 10, b: 26, l: 48 };
+  const svg = d3.select("#chart-d"), W = 570, H = 280, m = { t: 22, r: 10, b: 26, l: 56 };
   svg.selectAll("*").remove();
   const x = d3.scaleBand(YEARS, [m.l, W - m.r]).padding(0.42);
   const y = d3.scaleLinear([0, (d3.max(years, d => d.pcShare) || 0.01) * 1.2], [H - m.b, m.t]).nice();
   svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
     .call(d3.axisLeft(y).ticks(4).tickSize(-(W - m.l - m.r)).tickFormat(d3.format(".1%"))).call(g => g.selectAll("text").attr("x", -8));
+  yTitle(svg, "Share of medical spend", m, H);
   svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickSize(0).tickPadding(8));
   svg.append("g").selectAll("rect").data(years).join("rect").attr("x", d => x(d.yr)).attr("width", x.bandwidth())
-    .attr("y", d => y(d.pcShare)).attr("height", d => y(0) - y(d.pcShare)).attr("rx", 3).attr("fill", css("--seq"));
+    .attr("y", d => y(d.pcShare)).attr("height", d => y(0) - y(d.pcShare)).attr("rx", 3)
+    .attr("fill", d => d.yr === state.year ? css("--total") : css("--s3"));
   svg.append("g").selectAll("text").data(years).join("text").attr("class", "total-label").attr("text-anchor", "middle")
     .attr("x", d => x(d.yr) + x.bandwidth() / 2).attr("y", d => y(d.pcShare) - 6).text(d => fmtPct2(d.pcShare));
   svg.append("g").selectAll("rect").data(years).join("rect").attr("fill", "transparent")
@@ -338,37 +547,28 @@ function chartD(years) {
     .on("mouseleave", hideTip);
 }
 
-function checks() {
-  // Collapse the per-file checks ("Row count preserved: carrier", ...) into one line each, FLAG/FAIL first
-  const groups = d3.groups(D.validation, v => v.check_name.split(":")[0]);
-  const rank = { FAIL: 0, FLAG: 1, PASS: 2 };
-  const items = groups.map(([name, vs]) => {
-    const status = vs.map(v => v.status).sort((a, b) => rank[a] - rank[b])[0];
-    const num = s => /^\d+(\.\d+)?$/.test(s) ? d3.format(",.0f")(+s) : s;
-    return { check_name: vs.length > 1 ? `${name} (${vs.length} files)` : name, status, note: vs[0].note,
-             actual: vs.length > 1 ? `${vs.filter(v => v.status === "PASS").length}/${vs.length} pass` : num(vs[0].actual) };
-  }).sort((a, b) => rank[a.status] - rank[b.status]);
-  const n = d3.rollup(D.validation, v => v.length, v => v.status);
-  d3.select("#checks").html(`<li style="grid-template-columns:1fr;border-top:0;color:var(--text-secondary)">${n.get("PASS") || 0} checks pass · ${n.get("FLAG") || 0} flagged · ${n.get("FAIL") || 0} failed</li>` + items.map(v =>
-    `<li><span class="badge ${v.status}">${v.status}</span><span>${v.check_name}<span class="note">${v.note}</span></span><span class="act">${v.actual}</span></li>`).join(""));
-}
-
 function render() {
   const { years, subs } = compute();
-  const last = years[years.length - 1], first = years[0];
-  const cagr = first.total ? Math.pow(last.total / first.total, 1 / (years.length - 1)) - 1 : 0;
-  d3.select("#k-pmpm").text(fmt$(last.total));
-  d3.select("#k-pmpm-sub").text(`${fmt$(last.total - first.total)} more than 2016 (${fmt$(first.total)})`);
-  d3.select("#k-cagr").text(d3.format("+.1%")(cagr));
-  d3.select("#k-cagr-sub").text("compound annual rate");
-  d3.select("#k-pc").text(fmtPct2(last.pcShare));
-  d3.select("#k-pc-sub").text(`${fmt$2(last.pcPmpm)} PMPM · 2016: ${fmtPct2(first.pcShare)}`);
-  d3.select("#k-mem").text(d3.format(",.0f")(last.members));
-  d3.select("#k-mem-sub").text(`${d3.format(",.0f")(last.members * 12)} member months`);
-  chartA(years); chartB(years); chartC(subs); chartD(years);
+  const yr = state.year, cur = years.find(d => d.yr === yr), first = years[0];
+  const n = members(yr);
+  d3.select("#k-mem-label").text(`Members in view, ${yr}`);
+  d3.select("#k-mem").text(fmtInt(n));
+  d3.select("#k-mem-sub").text(`people with Part A+B FFS · ${fmtInt(cur.mm)} member months`);
+  d3.select("#k-pmpm-label").text(`Total allowed PMPM, ${yr}`);
+  d3.select("#k-pmpm").text(fmt$(cur.total));
+  d3.select("#k-pmpm-sub").text(yr === 2016 ? "base year" : `${fmtSigned$(cur.total - first.total)} vs. 2016 (${fmt$(first.total)})`);
+  const cagr = yr > 2016 && first.total ? Math.pow(cur.total / first.total, 1 / (yr - 2016)) - 1 : null;
+  d3.select("#k-cagr-label").text(`Annual PMPM growth, 2016–${yr}`);
+  d3.select("#k-cagr").text(cagr == null ? "—" : d3.format("+.1%")(cagr));
+  d3.select("#k-cagr-sub").text(cagr == null ? "pick a later year" : "compound annual rate");
+  d3.select("#k-pc-label").text(`Primary care share of medical spend, ${yr}`);
+  d3.select("#k-pc").text(fmtPct2(cur.pcShare));
+  d3.select("#k-pc-sub").text(`${fmt$2(cur.pcPmpm)} PMPM · 2016: ${fmtPct2(first.pcShare)}`);
+  lede(years); chartW(years); chartIP(years); chartA(years); chartB(years); chartC(subs); chartD(years);
 }
-legend("#legend-a"); legend("#legend-b"); checks(); render();
-matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { legend("#legend-a"); legend("#legend-b"); render(); });
+function paint() { catLegend("#legend-a"); catLegend("#legend-b"); render(); }
+paint();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", paint);
 </script>
 </body>
 </html>

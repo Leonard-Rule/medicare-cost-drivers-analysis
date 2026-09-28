@@ -25,8 +25,10 @@ The analysis is written in SQL. The results are shown in an interactive D3 dashb
 | 2022 | 8,175 | $1,782 | $205 | $1,987 | +8.1% | 1.73% |
 
 1. **Spending per member rose $331 a month (+20%) from 2016 to 2022,** about 3.1% a year.
-2. **Hospital care drove the growth.** Inpatient added $185 PMPM and outpatient added $105. Together that's
-   nearly 90% of the increase, so those are the first places to look.
+2. **Hospital stays got more expensive, not more common.** Inpatient care was 9% of 2016 spending but 56% of
+   the increase (+$185 PMPM). Splitting that into volume and price: stays per 1,000 members rose 21%, while
+   the allowed cost per stay rose 80% ($5,728 to $10,314). Higher cost per stay alone accounts for $139
+   PMPM, 42% of all the growth. Outpatient added another $105.
 
    ![Change in PMPM by category](charts/pmpm_change_by_category.png)
 3. **Primary care is under 2% of medical spending.** The synthetic file has no office visits, which are the
@@ -36,7 +38,7 @@ The analysis is written in SQL. The results are shown in an interactive D3 dashb
    than hidden (see [results/validation.csv](results/validation.csv)).
 
 ## The SQL
-Run in order, 01 → 06. Written in standard SQL. Full definitions and judgment calls are in
+Run in order, 01 → 07. Written in standard SQL. Full definitions and judgment calls are in
 [METHODS.md](METHODS.md).
 
 | File | What it does |
@@ -47,6 +49,7 @@ Run in order, 01 → 06. Written in standard SQL. Full definitions and judgment 
 | `04_pmpm.sql` | PMPM by category and year, year-over-year growth, annual growth rate, and the summary tables the dashboard uses. |
 | `05_primary_care.sql` | The Milbank primary care definition, Steps 1–6: which service codes, provider specialties and places of service count as primary care. |
 | `06_validation.sql` | 20+ checks that nothing was lost or double counted: row counts, dollar totals, eligibility match, and a rebuild of PMPM from the summary tables. |
+| `07_dashboard_facts.sql` | Inpatient stays and dollars for the volume-vs-price split, and distinct member counts for every filter combination (`CUBE`). |
 
 ## The results
 | File | One row per |
@@ -59,6 +62,8 @@ Run in order, 01 → 06. Written in standard SQL. Full definitions and judgment 
 | `member_months_by_year.csv` | year: member months, average members, % dual eligible |
 | `spend_fact.csv`, `mm_fact.csv`, `pc_fact.csv` | detailed building blocks (by year, category and demographic group) that the dashboard adds up |
 | `tableau_data.csv` | the three building-block tables stacked into one file for Tableau |
+| `ip_fact.csv` | year × demographic group: inpatient stays and allowed dollars |
+| `members_fact.csv` | year × every filter combination: distinct members |
 | `validation.csv` | one row per quality check, with PASS or FLAG |
 
 **How PMPM works here:** PMPM = total allowed dollars ÷ total member months, for whatever group you pick.

@@ -77,6 +77,17 @@ This follows the spec's Steps 1–6 and its Medicare RIF guidance:
 The spec leaves the "total spending" denominator to the analyst, so the output reports both versions:
 share of medical (non-pharmacy) spend, and share of total spend including pharmacy.
 
+## Inpatient: volume vs. price (`sql/07_dashboard_facts.sql`)
+Inpatient PMPM = stays per member month × allowed dollars per stay, so its change splits into a volume part
+and a price part. The dashboard uses the midpoint split, which adds up exactly:
+- volume = (change in stays per member month) × (average of the two years' cost per stay)
+- price = (change in cost per stay) × (average of the two years' stays per member month)
+
+For 2016 to 2022, that's +$46 PMPM from more stays and +$139 from a higher allowed cost per stay. One inpatient
+claim is counted as one stay. "Price" here means allowed dollars per stay, so it includes case mix and length
+of stay as well as payment rates. Separating those would take DRG weights and length of stay, the next layer
+of the analysis.
+
 ## Results (synthetic data)
 
 | Year | A+B FFS member months | Medical PMPM | Rx PMPM | Total PMPM | Growth | Primary care % of medical |
