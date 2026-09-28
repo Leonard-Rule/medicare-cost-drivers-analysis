@@ -7,6 +7,9 @@ kinds of care drive that spending and its growth, and how much of it goes to pri
 standard that state cost growth target programs use, to CMS's public synthetic Medicare claims for 2016–2022.
 The analysis is written in SQL. The results are shown in an interactive D3 dashboard and a Tableau workbook.
 
+**Live:** [D3 dashboard](https://leorule.com/medicare-cost-drivers.html) ·
+[Tableau Public](https://public.tableau.com/app/profile/leonard.rule/viz/MedicareCostDriversSyntehticFFSData/CostDrivers)
+
 > **All data here is synthetic.** CMS generates these claims for testing and training, and none of them
 > belong to real patients, providers or payments. Built only from public specifications and public data.
 
