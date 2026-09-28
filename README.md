@@ -7,13 +7,8 @@ kinds of care drive that spending and its growth, and how much of it goes to pri
 standard that state cost growth target programs use, to CMS's public synthetic Medicare claims for 2016–2022.
 The analysis is written in SQL. The results are shown in an interactive D3 dashboard and a Tableau workbook.
 
-This repo holds the final pieces: the SQL, the result tables and the dashboard. The full build (data loading,
-Python runner, Tableau generator and the raw claims files) is in
-**[medicare-cost-drivers](https://github.com/Leonard-Rule/medicare-cost-drivers)**.
-
-> Built only from public specifications and public synthetic data. The synthetic claims are made for testing
-> code, not for estimating anything, so treat the dollar amounts as a demonstration of the method rather
-> than real Medicare benchmarks.
+> **All data here is synthetic.** CMS generates these claims for testing and training, and none of them
+> belong to real patients, providers or payments. Built only from public specifications and public data.
 
 ![Allowed PMPM by service category](charts/pmpm_by_category.png)
 
@@ -34,31 +29,16 @@ Python runner, Tableau generator and the raw claims files) is in
    nearly 90% of the increase, so those are the first places to look.
 
    ![Change in PMPM by category](charts/pmpm_change_by_category.png)
-3. **Primary care is under 2% of medical spending.** That's far below published Medicare estimates, and the
-   reason is the data: the synthetic file has no office visits, which make up most real primary care.
+3. **Primary care is under 2% of medical spending.** The synthetic file has no office visits, which are the
+   core of the primary care definition, so what's counted is mostly care management after hospital
+   discharge and screenings.
 4. **Every reconciliation check passed.** Four checks are flagged as known gaps in the synthetic data rather
    than hidden (see [results/validation.csv](results/validation.csv)).
 
-## See it
+## The SQL
+Run in order, 01 → 06. Written in standard SQL. Full definitions and judgment calls are in
+[METHODS.md](METHODS.md).
 
-**Interactive dashboard (D3):** download this repo (green **Code** button → **Download ZIP**), unzip it and
-double-click `dashboard/index.html`. It opens in any browser with no install or internet connection. Use the
-filters at the top (Medicaid dual status, age, sex) and click a year's bar to see its subcategories.
-
-**Tableau:** the workbook reads [results/tableau_data.csv](results/tableau_data.csv).
-
-## What's here
-
-```
-sql/         the analysis, run in order 01 → 06 (DuckDB SQL)
-results/     output tables (CSV)
-reference/   Milbank primary care code lists (codes only)
-dashboard/   D3 dashboard: index.html + its data and the D3 library
-charts/      static charts used above
-METHODS.md   every definition and judgment call, and the data limitations
-```
-
-### The SQL
 | File | What it does |
 |---|---|
 | `01_member_months.sql` | Turns each person's 12 monthly enrollment flags into one row per person per month, and keeps months with Part A and B in traditional Medicare. These member months are the denominator for every PMPM. |
@@ -68,7 +48,7 @@ METHODS.md   every definition and judgment call, and the data limitations
 | `05_primary_care.sql` | The Milbank primary care definition, Steps 1–6: which service codes, provider specialties and places of service count as primary care. |
 | `06_validation.sql` | 20+ checks that nothing was lost or double counted: row counts, dollar totals, eligibility match, and a rebuild of PMPM from the summary tables. |
 
-### The results
+## The results
 | File | One row per |
 |---|---|
 | `pmpm_total.csv` | year: medical, pharmacy and total PMPM, growth |

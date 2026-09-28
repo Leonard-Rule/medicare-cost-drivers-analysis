@@ -1,11 +1,13 @@
 # Methods
 
 This project applies the Peterson-Milbank *Consensus Administrative Specifications for Health Care Cost
-Driver Analyses* (June 2025) to CMS's synthetic Medicare FFS claims. The synthetic file is built for
-testing code, not for estimating anything, so the output below demonstrates the method. The dollar levels
-aren't real-world benchmarks.
+Driver Analyses* (June 2025) to CMS's synthetic Medicare FFS claims. The data is fully synthetic: no real
+patients, providers or payments.
 
-The SQL in `sql/01`–`06` runs in order against DuckDB. The loader and runner scripts live in the [full build repo](https://github.com/Leonard-Rule/medicare-cost-drivers).
+The SQL in `sql/01`–`06` runs in order. It expects each CMS file loaded as a table with its original column
+names (`beneficiary`, `inpatient`, `outpatient`, `carrier`, `snf`, `hha`, `hospice`, `dme`, `pde`), with
+every column as text, plus the three code lists in `reference/` loaded as tables of the same name. The SQL
+casts numbers and dates itself and sticks to standard SQL.
 
 ## Study population and period
 - **Years:** 2016–2022. 2015 is the first file year, and 2023 claims stop in the spring.
@@ -89,17 +91,15 @@ share of medical (non-pharmacy) spend, and share of total spend including pharma
 
 From 2016 to 2022, total PMPM rose $331. Inpatient added $185 of that and outpatient added $105.
 
-## Data limitations found (validation checks flagged FLAG)
-- **Outpatient is inflated.** It runs about $1,000 PMPM, versus roughly $150–250 in real Medicare FFS.
-  Dialysis claims (90935) make up 31% of outpatient dollars.
-- **No office E&M visits (99202–99215) on carrier lines,** and every carrier line has specialty 01. Real
-  Medicare primary care is mostly office visits, so primary care share (~1.8%) is well below most published
-  estimates for Medicare. The primary care spend that does show up is mostly transitional care
-  management and screening codes.
+## What the validation checks flagged
+These are features of the synthetic file, reported rather than hidden:
+- **Dialysis is a large share of outpatient.** Dialysis claims (90935) make up 31% of outpatient dollars,
+  and outpatient is the largest category.
+- **No office E&M visits (99202–99215) on carrier lines,** and every carrier line has specialty 01. Office
+  visits are the core of the primary care definition, so primary care share (~1.8%) mostly reflects
+  transitional care management and screening codes.
 - **No wellness visits, G0463 facility lines or FQHC claims,** so Steps 5 and 6 run but don't change
   anything.
-- **The population skews under 65:** 47% of member months, versus roughly 12% in real Medicare. This comes
-  from how the synthetic file was generated.
+- **The population is 47% under 65** by member months.
 
-Each of these would be the first thing to recheck on real RIF or APCD data. The SQL doesn't need to
-change for that.
+The same SQL runs unchanged on other claims in this layout.

@@ -7,7 +7,7 @@
 -- most important thing and its topline table is explicit that CMS-1500 spend is Professional even
 -- during an inpatient or facility stay. Subcategories then follow the appendix code tables.
 --
--- Judgment calls (the spec is ambiguous or the RIF lacks the field). Each is listed in docs/METHODS.md:
+-- Judgment calls (the spec is ambiguous or the RIF lacks the field). Each is listed in METHODS.md:
 --   1. Home health (bill type 32/33/34) -> Professional / Home Health. That's where the spec's code
 --      table puts it, even though the topline table lists HCBS under Long-Term Care. 33 is included
 --      because Medicare HHA claims in this file use it.
@@ -16,7 +16,7 @@
 --   3. DME supplier claims -> Other / DME (not a facility, not physician services).
 --   4. RBCS isn't on the RIF. BETOS (its predecessor, first letter) stands in for type of service.
 
-CREATE OR REPLACE TABLE claim_line_cat AS
+CREATE TABLE claim_line_cat AS
 SELECT cl.*,
   CASE
     WHEN src = 'pde'                                                 THEN 'Retail Pharmacy'
@@ -56,18 +56,18 @@ SELECT cl.*,
   END AS subcategory,
   CASE WHEN src <> 'carrier' THEN NULL
        WHEN betos_cd IS NULL THEN 'Unclassified'
-       ELSE CASE left(betos_cd, 1)
+       ELSE CASE SUBSTRING(betos_cd, 1, 1)
             WHEN 'M' THEN 'E&M' WHEN 'P' THEN 'Procedures' WHEN 'I' THEN 'Imaging'
             WHEN 'T' THEN 'Tests' WHEN 'D' THEN 'DME' WHEN 'O' THEN 'Other'
             ELSE 'Exceptions/unclassified' END
   END AS type_of_service,
-  year(svc_dt)  AS yr,
-  month(svc_dt) AS mo
+  CAST(EXTRACT(YEAR FROM svc_dt) AS INTEGER)  AS yr,
+  CAST(EXTRACT(MONTH FROM svc_dt) AS INTEGER) AS mo
 FROM claim_line cl;
 
 -- Step 2c: Keep spend incurred in an eligible month. Medical categories need a Part A+B FFS month;
 -- retail pharmacy also needs Part D that month. Spend outside eligibility is counted in 06_validation.
-CREATE OR REPLACE TABLE spend AS
+CREATE TABLE spend AS
 SELECT c.*, m.dual, m.age_band, m.sex
 FROM claim_line_cat c
 JOIN member_month m
