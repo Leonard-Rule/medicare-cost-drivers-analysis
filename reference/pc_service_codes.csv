@@ -1,0 +1,134 @@
+hcpcs_cd,claim_type,service_group
+90460,professional_or_facility,Immunization administration
+90461,professional_or_facility,Immunization administration
+90471,professional_or_facility,Immunization administration
+90472,professional_or_facility,Immunization administration
+90473,professional_or_facility,Immunization administration
+90474,professional_or_facility,Immunization administration
+96160,professional_or_facility,Health risk assessment
+96161,professional_or_facility,Health risk assessment
+98966,professional_or_facility,Telephone / digital E&M
+98967,professional_or_facility,Telephone / digital E&M
+98968,professional_or_facility,Telephone / digital E&M
+98970,professional_or_facility,Telephone / digital E&M
+98971,professional_or_facility,Telephone / digital E&M
+98972,professional_or_facility,Telephone / digital E&M
+99078,professional_or_facility,Screening / counseling
+99173,professional_or_facility,Screening / counseling
+99201,professional_or_facility,Office visit
+99202,professional_or_facility,Office visit
+99203,professional_or_facility,Office visit
+99204,professional_or_facility,Office visit
+99205,professional_or_facility,Office visit
+99211,professional_or_facility,Office visit
+99212,professional_or_facility,Office visit
+99213,professional_or_facility,Office visit
+99214,professional_or_facility,Office visit
+99215,professional_or_facility,Office visit
+99339,professional_or_facility,Home visit
+99340,professional_or_facility,Home visit
+99341,professional_or_facility,Home visit
+99342,professional_or_facility,Home visit
+99343,professional_or_facility,Home visit
+99344,professional_or_facility,Home visit
+99345,professional_or_facility,Home visit
+99347,professional_or_facility,Home visit
+99348,professional_or_facility,Home visit
+99349,professional_or_facility,Home visit
+99350,professional_or_facility,Home visit
+99358,professional_or_facility,Prolonged service
+99359,professional_or_facility,Prolonged service
+99360,professional_or_facility,Prolonged service
+99366,professional_or_facility,Team conference / care plan oversight
+99367,professional_or_facility,Team conference / care plan oversight
+99368,professional_or_facility,Team conference / care plan oversight
+99374,professional_or_facility,Team conference / care plan oversight
+99375,professional_or_facility,Team conference / care plan oversight
+99376,professional_or_facility,Team conference / care plan oversight
+99377,professional_or_facility,Team conference / care plan oversight
+99378,professional_or_facility,Team conference / care plan oversight
+99379,professional_or_facility,Team conference / care plan oversight
+99380,professional_or_facility,Team conference / care plan oversight
+99381,professional_or_facility,Preventive / wellness visit
+99382,professional_or_facility,Preventive / wellness visit
+99383,professional_or_facility,Preventive / wellness visit
+99384,professional_or_facility,Preventive / wellness visit
+99385,professional_or_facility,Preventive / wellness visit
+99386,professional_or_facility,Preventive / wellness visit
+99387,professional_or_facility,Preventive / wellness visit
+99391,professional_or_facility,Preventive / wellness visit
+99392,professional_or_facility,Preventive / wellness visit
+99393,professional_or_facility,Preventive / wellness visit
+99394,professional_or_facility,Preventive / wellness visit
+99395,professional_or_facility,Preventive / wellness visit
+99396,professional_or_facility,Preventive / wellness visit
+99397,professional_or_facility,Preventive / wellness visit
+99401,professional_or_facility,Screening / counseling
+99402,professional_or_facility,Screening / counseling
+99403,professional_or_facility,Screening / counseling
+99404,professional_or_facility,Screening / counseling
+99406,professional_or_facility,Screening / counseling
+99407,professional_or_facility,Screening / counseling
+99408,professional_or_facility,Screening / counseling
+99409,professional_or_facility,Screening / counseling
+99411,professional_or_facility,Screening / counseling
+99412,professional_or_facility,Screening / counseling
+99417,professional_or_facility,Prolonged service
+99420,professional_or_facility,Screening / counseling
+99421,professional_or_facility,Telephone / digital E&M
+99422,professional_or_facility,Telephone / digital E&M
+99423,professional_or_facility,Telephone / digital E&M
+99424,professional_or_facility,Care management
+99425,professional_or_facility,Care management
+99426,professional_or_facility,Care management
+99427,professional_or_facility,Care management
+99429,professional_or_facility,Screening / counseling
+99437,professional_or_facility,Care management
+99491,professional_or_facility,Care management
+99439,professional_or_facility,Care management
+99441,professional_or_facility,Telephone / digital E&M
+99442,professional_or_facility,Telephone / digital E&M
+99443,professional_or_facility,Telephone / digital E&M
+99446,professional_or_facility,Interprofessional consult
+99447,professional_or_facility,Interprofessional consult
+99448,professional_or_facility,Interprofessional consult
+99449,professional_or_facility,Interprofessional consult
+99451,professional_or_facility,Interprofessional consult
+99452,professional_or_facility,Interprofessional consult
+99483,professional_or_facility,Care management
+99487,professional_or_facility,Care management
+99489,professional_or_facility,Care management
+99490,professional_or_facility,Care management
+99495,professional_or_facility,Care management
+99496,professional_or_facility,Care management
+99497,professional_or_facility,Advance care planning
+99498,professional_or_facility,Advance care planning
+G0008,professional_or_facility,Immunization administration
+G0009,professional_or_facility,Immunization administration
+G0010,professional_or_facility,Immunization administration
+G0102,professional_or_facility,Screening / counseling
+G0179,professional_or_facility,Team conference / care plan oversight
+G0180,professional_or_facility,Team conference / care plan oversight
+G0181,professional_or_facility,Team conference / care plan oversight
+G0182,professional_or_facility,Team conference / care plan oversight
+G0396,professional_or_facility,Screening / counseling
+G0397,professional_or_facility,Screening / counseling
+G0402,professional_or_facility,Preventive / wellness visit
+G0436,professional_or_facility,Screening / counseling
+G0437,professional_or_facility,Screening / counseling
+G0438,professional_or_facility,Preventive / wellness visit
+G0439,professional_or_facility,Preventive / wellness visit
+G0442,professional_or_facility,Screening / counseling
+G0443,professional_or_facility,Screening / counseling
+G0444,professional_or_facility,Screening / counseling
+G0466,professional_or_facility,FQHC / clinic visit
+G0467,professional_or_facility,FQHC / clinic visit
+G0468,professional_or_facility,Preventive / wellness visit
+G0505,professional_or_facility,Care management
+G0506,professional_or_facility,Care management
+G0513,professional_or_facility,Prolonged service
+G0514,professional_or_facility,Prolonged service
+G2212,professional_or_facility,Prolonged service
+S9117,professional_or_facility,Preventive / wellness visit
+T1015,professional_or_facility,FQHC / clinic visit
+G0463,facility_only,Hospital outpatient clinic visit (facility)

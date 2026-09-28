@@ -1,0 +1,43 @@
+yr,service_category,pmpm,yoy_growth_pct,yoy_change_pmpm,cagr_since_2016_pct
+2016,Inpatient Hospital,156.56,,,
+2017,Inpatient Hospital,153.22,-2.1,-3.34,-2.1
+2018,Inpatient Hospital,192.36,25.5,39.14,10.8
+2019,Inpatient Hospital,182.17,-5.3,-10.19,5.2
+2020,Inpatient Hospital,267.01,46.6,84.84,14.3
+2021,Inpatient Hospital,277.78,4.0,10.77,12.2
+2022,Inpatient Hospital,341.49,22.9,63.71,13.9
+2016,Long-Term Care,60.0,,,
+2017,Long-Term Care,52.03,-13.3,-7.97,-13.3
+2018,Long-Term Care,69.1,32.8,17.07,7.3
+2019,Long-Term Care,66.76,-3.4,-2.34,3.6
+2020,Long-Term Care,62.48,-6.4,-4.28,1.0
+2021,Long-Term Care,66.59,6.6,4.11,2.1
+2022,Long-Term Care,61.81,-7.2,-4.78,0.5
+2016,Other,0.37,,,
+2017,Other,0.35,-5.4,-0.02,-5.4
+2018,Other,0.36,2.9,0.01,-1.4
+2019,Other,0.35,-2.8,-0.01,-1.8
+2020,Other,0.36,2.9,0.01,-0.7
+2021,Other,0.35,-2.8,-0.01,-1.1
+2022,Other,0.36,2.9,0.01,-0.5
+2016,Outpatient Hospital,1015.95,,,
+2017,Outpatient Hospital,1161.28,14.3,145.33,14.3
+2018,Outpatient Hospital,1104.95,-4.9,-56.33,4.3
+2019,Outpatient Hospital,940.12,-14.9,-164.83,-2.6
+2020,Outpatient Hospital,981.98,4.5,41.86,-0.8
+2021,Outpatient Hospital,1043.17,6.2,61.19,0.5
+2022,Outpatient Hospital,1121.14,7.5,77.97,1.7
+2016,Professional,244.73,,,
+2017,Professional,245.97,0.5,1.24,0.5
+2018,Professional,249.65,1.5,3.68,1.0
+2019,Professional,254.96,2.1,5.31,1.4
+2020,Professional,261.3,2.5,6.34,1.7
+2021,Professional,258.52,-1.1,-2.78,1.1
+2022,Professional,257.38,-0.4,-1.14,0.8
+2016,Retail Pharmacy,179.23,,,
+2017,Retail Pharmacy,180.8,0.9,1.57,0.9
+2018,Retail Pharmacy,190.57,5.4,9.77,3.1
+2019,Retail Pharmacy,192.43,1.0,1.86,2.4
+2020,Retail Pharmacy,195.52,1.6,3.09,2.2
+2021,Retail Pharmacy,191.84,-1.9,-3.68,1.4
+2022,Retail Pharmacy,205.21,7.0,13.37,2.3

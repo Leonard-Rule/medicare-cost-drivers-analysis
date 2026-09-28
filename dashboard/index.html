@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medicare Cost Drivers · Peterson-Milbank service categories</title>
+<style>
+.viz-root {
+  color-scheme: light;
+  --page: #f4f3f0; --surface-1: #fcfcfb; --border: #e4e3df; --grid: #ebeae6;
+  --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7974;
+  --accent: #2a78d6; --flag: #9a6700; --flag-bg: #fff4d6; --pass: #1a7f37; --pass-bg: #e6f4ea;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300;
+  --seq: #2a78d6;
+}
+@media (prefers-color-scheme: dark) {
+  .viz-root {
+    color-scheme: dark;
+    --page: #111110; --surface-1: #1a1a19; --border: #2e2e2c; --grid: #282826;
+    --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
+    --accent: #3987e5; --flag: #f0b429; --flag-bg: #3a2e10; --pass: #56d364; --pass-bg: #12301b;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300;
+    --seq: #3987e5;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.viz-root { background: var(--page); color: var(--text-primary); min-height: 100vh; padding: 28px 32px 48px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+header h1 { font-size: 22px; margin: 0 0 4px; font-weight: 650; letter-spacing: -0.01em; }
+header p { margin: 0; color: var(--text-secondary); max-width: 860px; }
+.caveat { display: inline-block; margin-top: 10px; padding: 4px 10px; border-radius: 6px; font-size: 12.5px;
+  background: var(--flag-bg); color: var(--flag); }
+.filters { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin: 22px 0 18px; }
+.filter { display: flex; align-items: center; gap: 8px; }
+.filter > span { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface-1); }
+.seg button { border: 0; background: transparent; color: var(--text-secondary); font: inherit; font-size: 13px;
+  padding: 5px 11px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
+.card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.kpi .label { font-size: 12.5px; color: var(--text-secondary); }
+.kpi .value { font-size: 28px; font-weight: 650; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.kpi .sub { font-size: 12.5px; color: var(--text-muted); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+.card h2 { font-size: 15px; margin: 0 0 2px; font-weight: 620; }
+.card .hint { font-size: 12.5px; color: var(--text-muted); margin: 0 0 8px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--text-secondary); margin: 4px 0 6px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { fill: var(--text-secondary); font-size: 11.5px; }
+.axis path, .axis line { stroke: var(--border); }
+.gridline line { stroke: var(--grid); }
+.gridline path { display: none; }
+.total-label { fill: var(--text-primary); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.bar-hit { cursor: pointer; }
+.year-sel { fill: none; stroke: var(--text-primary); stroke-width: 1.5; stroke-dasharray: 3 3; }
+#tip { position: fixed; pointer-events: none; z-index: 10; background: var(--surface-1); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; box-shadow: 0 4px 16px rgba(0,0,0,.14);
+  opacity: 0; transition: opacity .08s; min-width: 160px; }
+#tip .t { font-weight: 620; margin-bottom: 4px; }
+#tip .r { display: flex; justify-content: space-between; gap: 14px; font-variant-numeric: tabular-nums; }
+#tip .r span:first-child { color: var(--text-secondary); }
+#tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+.checks { list-style: none; margin: 0; padding: 0; max-height: 300px; overflow: auto; }
+.checks li { display: grid; grid-template-columns: 56px 1fr auto; gap: 10px; padding: 7px 0; border-top: 1px solid var(--border); font-size: 12.5px; align-items: start; }
+.badge { font-size: 11px; font-weight: 650; padding: 2px 6px; border-radius: 5px; text-align: center; }
+.badge.PASS { color: var(--pass); background: var(--pass-bg); }
+.badge.FLAG { color: var(--flag); background: var(--flag-bg); }
+.badge.FAIL { color: #fff; background: #c62828; }
+.checks .note { color: var(--text-muted); display: block; }
+.checks .act { color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+details { margin-top: 14px; }
+summary { cursor: pointer; color: var(--text-secondary); font-size: 13px; }
+table { border-collapse: collapse; width: 100%; margin-top: 10px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+th, td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: right; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--text-secondary); font-weight: 600; }
+footer { margin-top: 22px; color: var(--text-muted); font-size: 12.5px; }
+footer a { color: var(--accent); }
+@media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, 1fr); } .grid2 { grid-template-columns: 1fr; } .viz-root { padding: 18px; } }
+</style>
+</head>
+<body>
+<div class="viz-root">
+<div class="wrap">
+  <header>
+    <h1>Medicare cost drivers by Peterson-Milbank service category</h1>
+    <p>Allowed spending per member per month (PMPM) for Part A+B fee-for-service beneficiaries, 2016–2022, using the
+      June 2025 Peterson-Milbank consensus specifications for service categories and primary care.</p>
+    <span class="caveat">CMS synthetic claims: this shows the method. The dollar levels aren't real-world benchmarks.</span>
+  </header>
+
+  <div class="filters" role="group" aria-label="Filters">
+    <div class="filter"><span>Medicaid</span><div class="seg" data-key="dual"></div></div>
+    <div class="filter"><span>Age</span><div class="seg" data-key="age"></div></div>
+    <div class="filter"><span>Sex</span><div class="seg" data-key="sex"></div></div>
+  </div>
+
+  <div class="kpis">
+    <div class="card kpi"><div class="label">Total allowed PMPM, 2022</div><div class="value" id="k-pmpm"></div><div class="sub" id="k-pmpm-sub"></div></div>
+    <div class="card kpi"><div class="label">Annual PMPM growth, 2016–2022</div><div class="value" id="k-cagr"></div><div class="sub" id="k-cagr-sub"></div></div>
+    <div class="card kpi"><div class="label">Primary care share of medical spend, 2022</div><div class="value" id="k-pc"></div><div class="sub" id="k-pc-sub"></div></div>
+    <div class="card kpi"><div class="label">Average members, 2022</div><div class="value" id="k-mem"></div><div class="sub" id="k-mem-sub"></div></div>
+  </div>
+
+  <div class="card">
+    <h2>Allowed PMPM by service category</h2>
+    <p class="hint">Click a year to drill into its subcategories below.</p>
+    <div class="legend" id="legend-a"></div>
+    <svg id="chart-a" viewBox="0 0 1180 330" role="img" aria-label="Stacked bar chart of PMPM by service category and year"></svg>
+    <details>
+      <summary>Show as table</summary>
+      <table id="table-a"></table>
+    </details>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Growth by category, indexed (2016 = 100)</h2>
+      <p class="hint">Shows which categories grew fastest, regardless of size.</p>
+      <div class="legend" id="legend-b"></div>
+      <svg id="chart-b" viewBox="0 0 570 300" role="img" aria-label="Line chart of PMPM indexed to 2016 by category"></svg>
+    </div>
+    <div class="card">
+      <h2 id="title-c">Subcategory PMPM</h2>
+      <p class="hint">Place of setting within each topline category.</p>
+      <svg id="chart-c" viewBox="0 0 570 320" role="img" aria-label="Bar chart of PMPM by subcategory"></svg>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Primary care share of medical spend</h2>
+      <p class="hint">Milbank primary care spec, Steps 1–6 (Appendix A codes, CMS primary care specialties, Appendix C places of service).</p>
+      <svg id="chart-d" viewBox="0 0 570 280" role="img" aria-label="Bar chart of primary care share by year"></svg>
+    </div>
+    <div class="card">
+      <h2>Validation checks</h2>
+      <p class="hint">Run on every pipeline build. FLAG marks a known limitation of the synthetic data, not a pipeline error.</p>
+      <ul class="checks" id="checks"></ul>
+    </div>
+  </div>
+
+  <footer>
+    Source: CMS Synthetic Medicare Enrollment, FFS Claims and PDE (2023 release); Peterson-Milbank Program for Sustainable Health
+    Care Costs, <em>Consensus Administrative Specifications for Health Care Cost Driver Analyses</em> (June 2025).
+    Code and methods: <a href="https://github.com/Leonard-Rule/medicare-cost-drivers">github.com/Leonard-Rule/medicare-cost-drivers</a> · Leo Rule
+  </footer>
+</div>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script src="d3.v7.min.js"></script>
+<script src="data.js"></script>
+<script>
+const D = window.DATA;
+const CATS = ["Inpatient Hospital", "Outpatient Hospital", "Professional", "Long-Term Care", "Retail Pharmacy", "Other"];
+const css = v => getComputedStyle(document.querySelector(".viz-root")).getPropertyValue(v).trim();
+const color = c => css("--s" + (CATS.indexOf(c) + 1));
+const YEARS = d3.range(2016, 2023);
+const fmt$ = d3.format("$,.0f"), fmt$2 = d3.format("$,.2f"), fmtPct = d3.format(".1%"), fmtPct2 = d3.format(".2%");
+const FILTERS = {
+  dual: [["all", "All"], [false, "Non-dual"], [true, "Dual"]],
+  age:  [["all", "All"], ["<65", "<65"], ["65-74", "65–74"], ["75-84", "75–84"], ["85+", "85+"]],
+  sex:  [["all", "All"], ["Female", "Female"], ["Male", "Male"]],
+};
+const state = { dual: "all", age: "all", sex: "all", year: 2022 };
+
+// ---------- filters ----------
+document.querySelectorAll(".seg").forEach(seg => {
+  const key = seg.dataset.key;
+  FILTERS[key].forEach(([val, label]) => {
+    const b = document.createElement("button");
+    b.textContent = label; b.setAttribute("aria-pressed", val === state[key]);
+    b.onclick = () => { state[key] = val; seg.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); render(); };
+    seg.appendChild(b);
+  });
+});
+const keep = r => (state.dual === "all" || r.dual === state.dual) && (state.age === "all" || r.age === state.age)
+  && (state.sex === "all" || r.sex === state.sex);
+
+// ---------- aggregation: PMPM = sum(allowed) / sum(member months) over the filtered slice ----------
+function compute() {
+  const mm = d3.rollup(D.mm.filter(keep), v => ({ ab: d3.sum(v, d => d.ab), pd: d3.sum(v, d => d.pd) }), d => d.yr);
+  const denom = (yr, cat) => { const m = mm.get(yr) || { ab: 0, pd: 0 }; return cat === "Retail Pharmacy" ? m.pd : m.ab; };
+  const spend = D.spend.filter(keep);
+  const byCat = d3.rollup(spend, v => d3.sum(v, d => d.allowed), d => d.yr, d => d.cat);
+  const bySub = d3.rollup(spend, v => d3.sum(v, d => d.allowed), d => d.yr, d => d.cat, d => d.sub);
+  const years = YEARS.map(yr => {
+    const row = { yr, total: 0, medicalAllowed: 0 };
+    CATS.forEach(c => {
+      const a = byCat.get(yr)?.get(c) || 0, dn = denom(yr, c);
+      row[c] = dn ? a / dn : 0; row.total += row[c];
+      if (c !== "Retail Pharmacy") row.medicalAllowed += a;
+    });
+    row.members = (mm.get(yr)?.ab || 0) / 12;
+    return row;
+  });
+  const pcBy = d3.rollup(D.pc.filter(keep), v => d3.sum(v, d => d.allowed), d => d.yr);
+  years.forEach(r => { const pc = pcBy.get(r.yr) || 0; r.pcShare = r.medicalAllowed ? pc / r.medicalAllowed : 0;
+    r.pcPmpm = mm.get(r.yr)?.ab ? pc / mm.get(r.yr).ab : 0; });
+  const subs = yr => {
+    const out = [];
+    CATS.forEach(c => (bySub.get(yr)?.get(c) || new Map()).forEach((a, s) => {
+      const dn = denom(yr, c); if (dn && a > 0) out.push({ cat: c, sub: s, pmpm: a / dn });
+    }));
+    return out.sort((a, b) => CATS.indexOf(a.cat) - CATS.indexOf(b.cat) || b.pmpm - a.pmpm);
+  };
+  return { years, subs };
+}
+
+// ---------- tooltip ----------
+const tip = d3.select("#tip");
+function showTip(ev, html) {
+  tip.html(html).style("opacity", 1);
+  const w = tip.node().offsetWidth, h = tip.node().offsetHeight;
+  let x = ev.clientX + 14, y = ev.clientY + 14;
+  if (x + w > innerWidth - 8) x = ev.clientX - w - 14;
+  if (y + h > innerHeight - 8) y = ev.clientY - h - 14;
+  tip.style("left", x + "px").style("top", y + "px");
+}
+const hideTip = () => tip.style("opacity", 0);
+const row = (label, val, c) => `<div class="r"><span>${c ? `<i style="background:${c}"></i>` : ""}${label}</span><span>${val}</span></div>`;
+
+function legend(sel) {
+  d3.select(sel).html(CATS.map(c => `<span><i style="background:${color(c)}"></i>${c}</span>`).join(""));
+}
+
+// ---------- chart A: stacked bars ----------
+function chartA(years) {
+  const svg = d3.select("#chart-a"), W = 1180, H = 330, m = { t: 22, r: 10, b: 26, l: 58 };
+  svg.selectAll("*").remove();
+  const x = d3.scaleBand(YEARS, [m.l, W - m.r]).padding(0.38);
+  const y = d3.scaleLinear([0, d3.max(years, d => d.total) * 1.1 || 1], [H - m.b, m.t]).nice();
+  svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
+    .call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r)).tickFormat(fmt$)).call(g => g.selectAll("text").attr("x", -8));
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickSize(0).tickPadding(8));
+  const stack = d3.stack().keys(CATS)(years);
+  const GAP = 1;   // half of the 2px surface gap between stacked segments
+  svg.append("g").selectAll("g").data(stack).join("g").attr("fill", s => color(s.key))
+    .selectAll("rect").data(s => s.map(d => ({ ...d, key: s.key }))).join("rect")
+    .attr("x", d => x(d.data.yr)).attr("width", x.bandwidth())
+    .attr("y", d => y(d[1]) + GAP).attr("height", d => Math.max(0, y(d[0]) - y(d[1]) - 2 * GAP)).attr("rx", 2);
+  svg.append("g").selectAll("text").data(years).join("text").attr("class", "total-label")
+    .attr("x", d => x(d.yr) + x.bandwidth() / 2).attr("y", d => y(d.total) - 6).attr("text-anchor", "middle")
+    .text(d => fmt$(d.total));
+  svg.append("rect").attr("class", "year-sel")
+    .attr("x", x(state.year) - 6).attr("width", x.bandwidth() + 12).attr("y", m.t - 16).attr("height", H - m.b - m.t + 16).attr("rx", 6);
+  // Hit targets: the full column, bigger than the marks
+  svg.append("g").selectAll("rect").data(years).join("rect").attr("class", "bar-hit")
+    .attr("x", d => x(d.yr) - x.step() * x.paddingInner() / 2).attr("width", x.step()).attr("y", m.t - 16).attr("height", H - m.b - m.t + 16)
+    .attr("fill", "transparent")
+    .on("mousemove", (ev, d) => showTip(ev, `<div class="t">${d.yr} · ${fmt$2(d.total)} PMPM</div>` +
+      CATS.slice().reverse().map(c => row(c, fmt$2(d[c]), color(c))).join("")))
+    .on("mouseleave", hideTip)
+    .on("click", (ev, d) => { state.year = d.yr; render(); });
+  // Table view
+  const t = d3.select("#table-a").html("");
+  t.append("tr").html(`<th>Category</th>${YEARS.map(y => `<th>${y}</th>`).join("")}`);
+  [...CATS, "Total"].forEach(c => t.append("tr").html(`<td>${c}</td>${years.map(d => `<td>${fmt$2(c === "Total" ? d.total : d[c])}</td>`).join("")}`));
+}
+
+// ---------- chart B: indexed lines with crosshair ----------
+function chartB(years) {
+  const svg = d3.select("#chart-b"), W = 570, H = 300, m = { t: 14, r: 16, b: 26, l: 44 };
+  svg.selectAll("*").remove();
+  const series = CATS.map(c => {
+    const base = years[0][c];
+    return { c, pts: years.map(d => ({ yr: d.yr, v: base ? 100 * d[c] / base : null, pmpm: d[c] })) };
+  });
+  const all = series.flatMap(s => s.pts.map(p => p.v)).filter(v => v != null && isFinite(v));
+  const x = d3.scalePoint(YEARS, [m.l, W - m.r]);
+  const y = d3.scaleLinear(d3.extent([...all, 100]), [H - m.b, m.t]).nice();
+  svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
+    .call(d3.axisLeft(y).ticks(5).tickSize(-(W - m.l - m.r))).call(g => g.selectAll("text").attr("x", -8));
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickSize(0).tickPadding(8));
+  svg.append("line").attr("x1", m.l).attr("x2", W - m.r).attr("y1", y(100)).attr("y2", y(100))
+    .attr("stroke", css("--text-muted")).attr("stroke-dasharray", "2 3");
+  const line = d3.line().defined(p => p.v != null && isFinite(p.v)).x(p => x(p.yr)).y(p => y(p.v));
+  svg.append("g").selectAll("path").data(series).join("path").attr("d", s => line(s.pts))
+    .attr("fill", "none").attr("stroke", s => color(s.c)).attr("stroke-width", 2).attr("stroke-linejoin", "round");
+  const rule = svg.append("line").attr("y1", m.t).attr("y2", H - m.b).attr("stroke", css("--text-muted")).style("opacity", 0);
+  const dots = svg.append("g").selectAll("circle").data(series).join("circle").attr("r", 4.5)
+    .attr("fill", s => color(s.c)).attr("stroke", css("--surface-1")).attr("stroke-width", 2).style("opacity", 0);
+  svg.append("rect").attr("x", m.l).attr("y", m.t).attr("width", W - m.l - m.r).attr("height", H - m.t - m.b).attr("fill", "transparent")
+    .on("mousemove", ev => {
+      const [mx] = d3.pointer(ev), i = Math.max(0, Math.min(YEARS.length - 1, Math.round((mx - m.l) / x.step()))), yr = YEARS[i];
+      rule.attr("x1", x(yr)).attr("x2", x(yr)).style("opacity", 1);
+      dots.attr("cx", x(yr)).attr("cy", s => { const v = s.pts[i].v; return v != null && isFinite(v) ? y(v) : -99; }).style("opacity", 1);
+      showTip(ev, `<div class="t">${yr} vs. 2016</div>` + series.slice().sort((a, b) => (b.pts[i].v ?? -1) - (a.pts[i].v ?? -1))
+        .map(s => row(s.c, s.pts[i].v != null && isFinite(s.pts[i].v) ? d3.format(".0f")(s.pts[i].v) : "n/a", color(s.c))).join(""));
+    })
+    .on("mouseleave", () => { rule.style("opacity", 0); dots.style("opacity", 0); hideTip(); });
+}
+
+// ---------- chart C: subcategory bars for the selected year ----------
+function chartC(subs) {
+  const data = subs(state.year);
+  d3.select("#title-c").text(`Subcategory PMPM, ${state.year}`);
+  const svg = d3.select("#chart-c"), W = 570, rowH = 26, m = { t: 6, r: 70, b: 6, l: 250 };
+  const H = Math.max(120, m.t + m.b + rowH * data.length);
+  svg.attr("viewBox", `0 0 ${W} ${H}`).selectAll("*").remove();
+  const x = d3.scaleLinear([0, d3.max(data, d => d.pmpm) || 1], [m.l, W - m.r]);
+  const y = d3.scaleBand(data.map(d => d.cat + "|" + d.sub), [m.t, H - m.b]).padding(0.28);
+  const g = svg.append("g").selectAll("g").data(data).join("g");
+  g.append("text").attr("x", m.l - 10).attr("y", d => y(d.cat + "|" + d.sub) + y.bandwidth() / 2).attr("dy", "0.35em")
+    .attr("text-anchor", "end").text(d => d.sub);
+  g.append("rect").attr("x", m.l).attr("y", d => y(d.cat + "|" + d.sub)).attr("height", y.bandwidth())
+    .attr("width", d => Math.max(1.5, x(d.pmpm) - m.l)).attr("rx", 3).attr("fill", d => color(d.cat));
+  g.append("text").attr("class", "total-label").attr("x", d => Math.max(m.l + 1.5, x(d.pmpm)) + 6)
+    .attr("y", d => y(d.cat + "|" + d.sub) + y.bandwidth() / 2).attr("dy", "0.35em").text(d => fmt$2(d.pmpm));
+  g.append("rect").attr("x", 0).attr("width", W).attr("y", d => y(d.cat + "|" + d.sub) - 3).attr("height", y.bandwidth() + 6)
+    .attr("fill", "transparent")
+    .on("mousemove", (ev, d) => showTip(ev, `<div class="t">${d.sub}</div>` + row(d.cat, fmt$2(d.pmpm) + " PMPM", color(d.cat))))
+    .on("mouseleave", hideTip);
+}
+
+// ---------- chart D: primary care share ----------
+function chartD(years) {
+  const svg = d3.select("#chart-d"), W = 570, H = 280, m = { t: 22, r: 10, b: 26, l: 48 };
+  svg.selectAll("*").remove();
+  const x = d3.scaleBand(YEARS, [m.l, W - m.r]).padding(0.42);
+  const y = d3.scaleLinear([0, (d3.max(years, d => d.pcShare) || 0.01) * 1.2], [H - m.b, m.t]).nice();
+  svg.append("g").attr("class", "gridline").attr("transform", `translate(${m.l},0)`)
+    .call(d3.axisLeft(y).ticks(4).tickSize(-(W - m.l - m.r)).tickFormat(d3.format(".1%"))).call(g => g.selectAll("text").attr("x", -8));
+  svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.b})`).call(d3.axisBottom(x).tickSize(0).tickPadding(8));
+  svg.append("g").selectAll("rect").data(years).join("rect").attr("x", d => x(d.yr)).attr("width", x.bandwidth())
+    .attr("y", d => y(d.pcShare)).attr("height", d => y(0) - y(d.pcShare)).attr("rx", 3).attr("fill", css("--seq"));
+  svg.append("g").selectAll("text").data(years).join("text").attr("class", "total-label").attr("text-anchor", "middle")
+    .attr("x", d => x(d.yr) + x.bandwidth() / 2).attr("y", d => y(d.pcShare) - 6).text(d => fmtPct2(d.pcShare));
+  svg.append("g").selectAll("rect").data(years).join("rect").attr("fill", "transparent")
+    .attr("x", d => x(d.yr) - x.step() * x.paddingInner() / 2).attr("width", x.step()).attr("y", m.t).attr("height", H - m.t - m.b)
+    .on("mousemove", (ev, d) => showTip(ev, `<div class="t">${d.yr}</div>` + row("Share of medical", fmtPct2(d.pcShare)) + row("Primary care PMPM", fmt$2(d.pcPmpm))))
+    .on("mouseleave", hideTip);
+}
+
+function checks() {
+  // Collapse the per-file checks ("Row count preserved: carrier", ...) into one line each, FLAG/FAIL first
+  const groups = d3.groups(D.validation, v => v.check_name.split(":")[0]);
+  const rank = { FAIL: 0, FLAG: 1, PASS: 2 };
+  const items = groups.map(([name, vs]) => {
+    const status = vs.map(v => v.status).sort((a, b) => rank[a] - rank[b])[0];
+    const num = s => /^\d+(\.\d+)?$/.test(s) ? d3.format(",.0f")(+s) : s;
+    return { check_name: vs.length > 1 ? `${name} (${vs.length} files)` : name, status, note: vs[0].note,
+             actual: vs.length > 1 ? `${vs.filter(v => v.status === "PASS").length}/${vs.length} pass` : num(vs[0].actual) };
+  }).sort((a, b) => rank[a.status] - rank[b.status]);
+  const n = d3.rollup(D.validation, v => v.length, v => v.status);
+  d3.select("#checks").html(`<li style="grid-template-columns:1fr;border-top:0;color:var(--text-secondary)">${n.get("PASS") || 0} checks pass · ${n.get("FLAG") || 0} flagged · ${n.get("FAIL") || 0} failed</li>` + items.map(v =>
+    `<li><span class="badge ${v.status}">${v.status}</span><span>${v.check_name}<span class="note">${v.note}</span></span><span class="act">${v.actual}</span></li>`).join(""));
+}
+
+function render() {
+  const { years, subs } = compute();
+  const last = years[years.length - 1], first = years[0];
+  const cagr = first.total ? Math.pow(last.total / first.total, 1 / (years.length - 1)) - 1 : 0;
+  d3.select("#k-pmpm").text(fmt$(last.total));
+  d3.select("#k-pmpm-sub").text(`${fmt$(last.total - first.total)} more than 2016 (${fmt$(first.total)})`);
+  d3.select("#k-cagr").text(d3.format("+.1%")(cagr));
+  d3.select("#k-cagr-sub").text("compound annual rate");
+  d3.select("#k-pc").text(fmtPct2(last.pcShare));
+  d3.select("#k-pc-sub").text(`${fmt$2(last.pcPmpm)} PMPM · 2016: ${fmtPct2(first.pcShare)}`);
+  d3.select("#k-mem").text(d3.format(",.0f")(last.members));
+  d3.select("#k-mem-sub").text(`${d3.format(",.0f")(last.members * 12)} member months`);
+  chartA(years); chartB(years); chartC(subs); chartD(years);
+}
+legend("#legend-a"); legend("#legend-b"); checks(); render();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { legend("#legend-a"); legend("#legend-b"); render(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+prvdr_spclty,description,is_physician
+01,General practice,1
+08,Family practice,1
+11,Internal medicine,1
+37,Pediatric medicine,1
+50,Nurse practitioner,0
+97,Physician assistant,0

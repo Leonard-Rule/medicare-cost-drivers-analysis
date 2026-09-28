@@ -1,0 +1,14 @@
+pos_cd,description
+02,Telehealth - outside home
+03,School
+10,Telehealth - in home
+11,Office
+12,Home
+13,Assisted living facility
+14,Group home
+19,Off-campus outpatient hospital
+22,On-campus outpatient hospital
+32,Nursing facility
+33,Custodial care facility
+34,Hospice
+50,Federally qualified health center

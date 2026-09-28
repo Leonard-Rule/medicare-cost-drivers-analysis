@@ -1,0 +1,25 @@
+id,check_name,expected,actual,status,note
+1,Row count preserved: carrier,1121004,1121004,PASS,Institutional files collapse to one row per CLM_ID; line files keep every line
+1,Row count preserved: dme,103828,103828,PASS,Institutional files collapse to one row per CLM_ID; line files keep every line
+1,Row count preserved: hha,493,493,PASS,Institutional files collapse to one row per CLM_ID; line files keep every line
+1,Row count preserved: hospice,1086,1086,PASS,Institutional files collapse to one row per CLM_ID; line files keep every line
+1,Row count preserved: inpatient,20867,20867,PASS,Institutional files collapse to one row per CLM_ID; line files keep every line
+1,Row count preserved: outpatient,402653,402653,PASS,Institutional files collapse to one row per CLM_ID; line files keep every line
+1,Row count preserved: pde,515520,515520,PASS,Institutional files collapse to one row per CLM_ID; line files keep every line
+1,Row count preserved: snf,1632,1632,PASS,Institutional files collapse to one row per CLM_ID; line files keep every line
+2,Every row gets a service category,0,0,PASS,Unmapped bill types would land in Other facility
+3,Categorized $ = standardized $,1205848778.0,1205848778.0,PASS,Categorization must not add or drop dollars
+4,Share of $ in an eligible month: carrier,>= 90%,100.0%,PASS,Claims outside A+B FFS (or Part D) eligibility are excluded from PMPM
+4,Share of $ in an eligible month: dme,>= 90%,94.8%,PASS,Claims outside A+B FFS (or Part D) eligibility are excluded from PMPM
+4,Share of $ in an eligible month: hha,>= 90%,94.2%,PASS,Claims outside A+B FFS (or Part D) eligibility are excluded from PMPM
+4,Share of $ in an eligible month: hospice,>= 90%,94.1%,PASS,Claims outside A+B FFS (or Part D) eligibility are excluded from PMPM
+4,Share of $ in an eligible month: inpatient,>= 90%,93.7%,PASS,Claims outside A+B FFS (or Part D) eligibility are excluded from PMPM
+4,Share of $ in an eligible month: outpatient,>= 90%,94.4%,PASS,Claims outside A+B FFS (or Part D) eligibility are excluded from PMPM
+4,Share of $ in an eligible month: pde,>= 90%,93.7%,PASS,Claims outside A+B FFS (or Part D) eligibility are excluded from PMPM
+4,Share of $ in an eligible month: snf,>= 90%,93.4%,PASS,Claims outside A+B FFS (or Part D) eligibility are excluded from PMPM
+5,Monthly A+B FFS months vs annual summary fields,625236,589380,PASS,Annual fields count A and B separately (least of the two); monthly flags need both in the same month
+6,PMPM rebuilds from the fact tables,0.00,0.0,PASS,Dashboard/Tableau fact tables give the same PMPM as the SQL views
+7,Primary care Step 5 (wellness-visit filter) applied,wellness visits > 0,0 NPIs with wellness visits,FLAG,"Synthetic carrier file has no wellness visits, so the rule would drop every physician; skipped"
+8,Carrier office E&M visits (99202-99215) present,> 0,0,FLAG,Real Medicare primary care is mostly office E&M; without them primary care share is understated
+9,Outpatient $ from dialysis (90935) claims,plausible share,31.2%,FLAG,"Synthetic outpatient spend is dominated by dialysis claims, inflating Outpatient Hospital PMPM"
+10,"Primary care facility claims (G0463 split billing, FQHC 77x)",> 0,0,FLAG,Step 6 logic runs but the synthetic outpatient file only has bill type 13x and no G0463
