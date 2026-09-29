@@ -42,7 +42,7 @@ The analysis is written in SQL. The results are shown in an interactive D3 dashb
    than hidden (see [results/validation.csv](results/validation.csv)).
 
 ## The SQL
-Run in order, 01 → 07. Written in standard SQL. Full definitions and judgment calls are in
+Full definitions and judgment calls are in
 [METHODS.md](METHODS.md).
 
 | File | What it does |
@@ -70,9 +70,6 @@ Run in order, 01 → 07. Written in standard SQL. Full definitions and judgment 
 | `members_fact.csv` | year × every filter combination: distinct members |
 | `validation.csv` | one row per quality check, with PASS or FLAG |
 
-**How PMPM works here:** PMPM = total allowed dollars ÷ total member months, for whatever group you pick.
-Because the building-block tables keep dollars and member months separate, any filter combination gives a
-correct PMPM, and check 6 confirms the dashboard numbers match the SQL exactly.
 
 ## Data and sources
 - **Claims:** CMS Synthetic Medicare Enrollment, Fee-for-Service Claims and Prescription Drug Event data
