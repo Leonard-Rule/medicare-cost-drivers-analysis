@@ -53,11 +53,7 @@ claim form first.
 2. **Bill type 81/82 is treated as hospice.** The spec lists it as both "independent lab" and "hospice".
    In Medicare, 81x/82x is hospice.
 3. **DME goes to Other.** DME suppliers aren't facilities or physician services.
-4. **BETOS stands in for RBCS.** The RIF doesn't carry RBCS, so type of service for professional lines
-   uses the first letter of BETOS, which RBCS replaced.
-5. **Unit of analysis:** institutional files are counted at the claim level, because the RIF repeats
-   header dollars on every revenue line. The spec wants line-level outpatient, but in this synthetic file
-   99.9% of outpatient lines are the 0001 total line, so header dollars are more complete.
+
 
 ## Primary care (`sql/05_primary_care.sql`)
 This follows the spec's Steps 1–6 and its Medicare RIF guidance:
@@ -112,5 +108,3 @@ These are features of the synthetic file, reported rather than hidden:
 - **No wellness visits, G0463 facility lines or FQHC claims,** so Steps 5 and 6 run but don't change
   anything.
 - **The population is 47% under 65** by member months.
-
-The same SQL runs unchanged on other claims in this layout.
